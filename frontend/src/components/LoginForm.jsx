@@ -6,6 +6,7 @@ function LoginForm() {
   const [error, setError] = useState("")
   const [final, setFinal] = useState("")
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
 
   const handleLogin = (e) => {
@@ -37,44 +38,64 @@ function LoginForm() {
 
   return (
     <>
-      {
-        isLoggedIn ?
-          <div>
-            {final}
-          </div>
-          :
-          <div>
-            <h2 className="text-2xl font-semibold text-center mb-10">
-              Login
-            </h2>
+      {isLoggedIn ? (
+        <div className="text-center text-sky-700 font-semibold">{final}</div>
+      ) : (
+        <div>
+          <h2 className="text-2xl font-semibold text-center mb-4">Login</h2>
 
-            <form onSubmit={handleLogin}>
+          <form onSubmit={handleLogin} className="space-y-4" noValidate>
+            <div>
+              <label htmlFor="login-email" className="sr-only">Email</label>
               <input
+                id="login-email"
+                name="email"
                 type="email"
                 placeholder="Email"
-                className="w-full mb-3 px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500"
+                required
+                aria-required="true"
+                className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-sky-400 input-animated"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+            </div>
 
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full mb-4 px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+            <div>
+              <label htmlFor="login-password" className="sr-only">Password</label>
+              <div className="relative">
+                <input
+                  id="login-password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  required
+                  aria-required="true"
+                  className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-sky-400 input-animated"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(v => !v)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-slate-600 hover:text-slate-800"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? 'Hide' : 'Show'}
+                </button>
+              </div>
+            </div>
 
-              {error && (
-                <p className="text-red-500 text-sm mb-3 text-center">{error}</p>
-              )}
+            {error && <p role="alert" aria-live="assertive" className="text-red-500 text-sm">{error}</p>}
 
-              <button className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">
-                Login
-              </button>
-            </form>
-          </div>
-      }
+            <button
+              type="submit"
+              className="w-full bg-sky-600 text-white py-2 rounded-md hover:bg-sky-700 transition transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-400 button-animated"
+            >
+              Login
+            </button>
+          </form>
+        </div>
+      )}
     </>
   );
 }

@@ -8,6 +8,8 @@ function SignupForm() {
     const [error, setError] = useState("");
     const [final, setFinal] = useState("")
     const [isSignedUp, setIsSignUp] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirm, setShowConfirm] = useState(false)
 
     const passwordAuthontication = (e) => {
 
@@ -95,62 +97,109 @@ function SignupForm() {
 
     return (
         <>
-            {
-                isSignedUp ?
-                    <div>
-                        {final}
-                    </div> :
-                    <div>
-                        <h2 className="text-2xl font-semibold text-center mb-6">
-                            Create Account
-                        </h2>
+            {isSignedUp ? (
+                <div className="text-center text-sky-700 font-semibold">{final}</div>
+            ) : (
+                <div>
+                    <h2 className="text-2xl font-semibold text-center mb-4">Create Account</h2>
 
-                        <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+                        <div>
+                            <label htmlFor="name" className="sr-only">Name</label>
                             <input
+                                id="name"
+                                name="name"
                                 type="text"
                                 placeholder="Name"
-                                className="w-full mb-3 px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500"
+                                required
+                                aria-required="true"
+                                className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-sky-400 input-animated"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                             />
+                        </div>
 
+                        <div>
+                            <label htmlFor="email" className="sr-only">Email</label>
                             <input
+                                id="email"
+                                name="email"
                                 type="email"
                                 placeholder="Email"
-                                className="w-full mb-3 px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500"
+                                required
+                                aria-required="true"
+                                className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-sky-400 input-animated"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
+                        </div>
 
-                            <input
-                                type="password"
-                                placeholder="Password"
-                                className="w-full mb-3 px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500"
-                                value={password}
-                                onChange={(e) => {
-                                    setPassword(e.target.value);
-                                    setError("");
-                                }}
-                            />
+                        <div>
+                            <label htmlFor="password" className="sr-only">Password</label>
+                            <div className="relative">
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="Password"
+                                    required
+                                    aria-required="true"
+                                    className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-sky-400 input-animated"
+                                    value={password}
+                                    onChange={(e) => {
+                                        setPassword(e.target.value);
+                                        setError("");
+                                    }}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(v => !v)}
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-slate-600 hover:text-slate-800"
+                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                >
+                                    {showPassword ? 'Hide' : 'Show'}
+                                </button>
+                            </div>
+                        </div>
 
-                            <input
-                                type="password"
-                                placeholder="Confirm Password"
-                                className="w-full mb-4 px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                            />
+                        <div>
+                            <label htmlFor="confirmPassword" className="sr-only">Confirm Password</label>
+                            <div className="relative">
+                                <input
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    type={showConfirm ? "text" : "password"}
+                                    placeholder="Confirm Password"
+                                    required
+                                    aria-required="true"
+                                    className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-sky-400 input-animated"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirm(v => !v)}
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-slate-600 hover:text-slate-800"
+                                    aria-label={showConfirm ? "Hide confirm password" : "Show confirm password"}
+                                >
+                                    {showConfirm ? 'Hide' : 'Show'}
+                                </button>
+                            </div>
+                        </div>
 
-                            {error && (
-                                <p className="text-red-500 text-sm mb-3 text-center">{error}</p>
-                            )}
+                        {error && (
+                            <p role="alert" aria-live="assertive" className="text-red-500 text-sm">{error}</p>
+                        )}
 
-                            <button className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">
-                                Sign Up
-                            </button>
-                        </form>
-                    </div>
-            }
+                        <button
+                            type="submit"
+                            className="w-full bg-sky-600 text-white py-2 rounded-md hover:bg-sky-700 transition transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-400 button-animated"
+                        >
+                            Sign Up
+                        </button>
+                    </form>
+                </div>
+            )}
         </>
     );
 }

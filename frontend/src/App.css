@@ -1,0 +1,199 @@
+:root {
+  --bg: #f8fafc;
+  --primary: #0ea5e9;
+  --primary-dark: #0284c7;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* subtle card improvements */
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.9));
+}
+
+/* small utility to ensure consistent input focus offset on some browsers */
+input:focus {
+  outline: none;
+}
+
+/* Animated gradient background */
+.animated-bg {
+  position: relative;
+  overflow: hidden;
+  /* subtle fallback background */
+  background: linear-gradient(180deg, #fbfdff 0%, #f0fbff 60%);
+}
+
+/* Layer 1: slow rotating conic gradient */
+.animated-bg::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  background: conic-gradient(from 180deg at 50% 50%, rgba(14,165,233,0.10), rgba(59,130,246,0.08), rgba(56,189,248,0.06), rgba(99,102,241,0.04), rgba(14,165,233,0.10));
+  filter: blur(40px) saturate(120%);
+  transform: rotate(0deg);
+  animation: spin 40s linear infinite;
+  mix-blend-mode: screen;
+  opacity: 0.9;
+}
+
+/* Layer 2: gentle drifting radial textures */
+.animated-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: radial-gradient(circle at 10% 20%, rgba(14,165,233,0.05), transparent 15%), radial-gradient(circle at 90% 80%, rgba(99,102,241,0.03), transparent 20%);
+  background-size: 120% 120%;
+  filter: blur(18px);
+  animation: drift 26s ease-in-out infinite alternate;
+  mix-blend-mode: overlay;
+  opacity: 0.85;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Decorative blob styles */
+
+.blob {
+  position: absolute;
+  filter: blur(18px);
+  opacity: 0.52;
+  transform: translate3d(0,0,0);
+  will-change: transform, opacity;
+}
+
+.blob--one { width: 360px; height: 360px; left: -100px; top: -80px; }
+.blob--two { width: 300px; height: 300px; right: -80px; bottom: -40px; }
+.blob--three { width: 220px; height: 220px; left: 18%; bottom: -100px; }
+
+@keyframes floatSlowA {
+  0% { transform: translateY(0) translateX(0) rotate(0deg) scale(1); }
+  50% { transform: translateY(-22px) translateX(10px) rotate(6deg) scale(1.03); }
+  100% { transform: translateY(0) translateX(0) rotate(0deg) scale(1); }
+}
+
+@keyframes floatSlowB {
+  0% { transform: translateY(0) translateX(0) rotate(0deg) scale(1); }
+  50% { transform: translateY(-12px) translateX(-8px) rotate(-4deg) scale(1.02); }
+  100% { transform: translateY(0) translateX(0) rotate(0deg) scale(1); }
+}
+
+@keyframes pulseOpacity {
+  0% { opacity: 0.48; }
+  50% { opacity: 0.62; }
+  100% { opacity: 0.48; }
+}
+
+.blob--one { animation: floatSlowA 10s ease-in-out infinite, pulseOpacity 12s ease-in-out infinite; }
+.blob--two { animation: floatSlowB 14s ease-in-out infinite, pulseOpacity 16s ease-in-out infinite; }
+.blob--three { animation: floatSlowA 12s ease-in-out infinite, pulseOpacity 18s ease-in-out infinite; }
+/* Particles layer */
+.particles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.particle { transform-origin: center; }
+.particle.p1 { animation: driftTiny 10s linear infinite; }
+.particle.p2 { animation: driftTiny 12s linear infinite; }
+.particle.p3 { animation: driftTiny 14s linear infinite; }
+.particle.p4 { animation: driftLarge 20s linear infinite; }
+.particle.p5 { animation: driftTiny 11s linear infinite; }
+.particle.p6 { animation: driftTiny 13s linear infinite; }
+.particle.p7 { animation: driftLarge 18s linear infinite; }
+.particle.p8 { animation: driftTiny 9s linear infinite; }
+
+@keyframes driftTiny {
+  0% { transform: translateY(0) translateX(0); opacity: .6; }
+  50% { transform: translateY(-3%) translateX(1%); opacity: .9; }
+  100% { transform: translateY(0) translateX(0); opacity: .6; }
+}
+
+@keyframes driftLarge {
+  0% { transform: translateY(0) translateX(0); opacity: .45; }
+  50% { transform: translateY(-6%) translateX(-3%); opacity: .75; }
+  100% { transform: translateY(0) translateX(0); opacity: .45; }
+}
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .animated-bg::before,
+  .animated-bg::after,
+  .blob,
+  .particles,
+  .particle {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+/* Form and button animations */
+.animate-form {
+  animation: formIn 420ms cubic-bezier(.2,.9,.2,1) both;
+}
+
+@keyframes formIn {
+  from { opacity: 0; transform: translateY(8px) scale(.996); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* input and button micro-interactions */
+input.input-animated, textarea.input-animated {
+  transition: box-shadow .18s ease, transform .12s ease, border-color .12s ease;
+}
+
+button.button-animated {
+  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease;
+}
+
+button.button-animated:active {
+  transform: translateY(1px) scale(.998);
+}
+
+input:focus { box-shadow: 0 6px 18px rgba(14,165,233,0.08); border-color: rgba(14,165,233,0.6); }
+
+/* responsive tweaks */
+@media (max-width: 640px) {
+  .blob--one { width: 220px; height: 220px; left: -60px; top: -40px; }
+  .blob--two { width: 180px; height: 180px; right: -40px; bottom: -20px; }
+  .blob--three { width: 140px; height: 140px; left: 10%; bottom: -60px; }
+
+  .w-full.max-w-md {
+    padding: 1rem;
+  }
+}
+
+.blob svg { width: 100%; height: 100%; display: block; }
+
+.animated-bg {
+  position: relative;
+}
+
+/* subtle floating accent using pseudo-element on root container */
+.animated-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(rgba(14,165,233,0.04) 0%, rgba(14,165,233,0.01) 40%, transparent 60%);
+  mix-blend-mode: overlay;
+}
