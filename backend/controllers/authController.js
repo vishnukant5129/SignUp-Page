@@ -1,5 +1,6 @@
 import User from "../models/user.js";
 import bcrypt from "bcrypt"
+import generateToken from "../utils/token.js";
 
 export const signup = async (req, res) => {
     const { name, email, password, confirmPassword } = req.body;
@@ -63,5 +64,11 @@ export const login = async (req, res) => {
         return res.status(400).json({ success: false, message: "Incorrect password" });
     }
 
-    return res.status(200).json({ success: true, message: "Login successful" });
+    const token = generateToken(user._id);
+
+    return res.status(200).json({
+        success: true,
+        message: "Login successful",
+        token
+    });
 };

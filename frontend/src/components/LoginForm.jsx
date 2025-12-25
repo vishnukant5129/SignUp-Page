@@ -26,6 +26,7 @@ function LoginForm() {
         if (data.success === false) {
           setError(data.message)
         } else {
+          localStorage.setItem("token", data.token);
           setIsLoggedIn(true)
           setFinal("Login success")
         }
